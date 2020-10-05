@@ -254,8 +254,7 @@ export default class ReOrderableList extends Component {
       targetIndex,
       item.listComponent.model,
       {
-        onListUpdate: this.props.onListUpdate,
-        onListGroupUpdate: this.props.onListGroupUpdate
+        onListUpdate: this.props.onListUpdate
       }
     )
   }

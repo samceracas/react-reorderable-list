@@ -48,7 +48,6 @@ export default class ListController {
 
     const sourceListPath = sourceList.path
     const onListUpdate = callback?.onListUpdate
-    const onListGroupUpdate = callback?.onListGroupUpdate
 
     if (this.model.instanceID === sourceList.instanceID) {
       targetList = arrayMove(targetList, itemIndex, targetIndex)
@@ -79,8 +78,6 @@ export default class ListController {
         const groupCopy = [...this.model.group]
         toUpdate.forEach((data) => set(data.path, groupCopy, data.list))
         onListUpdate?.call(this, groupCopy)
-      } else {
-        onListGroupUpdate?.call(this, toUpdate)
       }
     }
   }

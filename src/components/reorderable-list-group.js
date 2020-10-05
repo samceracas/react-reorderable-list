@@ -30,17 +30,6 @@ export default class ReOrderableListGroup extends Component {
   }
 
   /**
-   * List group event handler.
-   *
-   * @memberof ReOrderableListGroup
-   */
-  _onListGroupUpdate = (toUpdate) => {
-    const listCopy = [...this.props.group]
-    toUpdate.forEach((data) => set(data.path, listCopy, data.list))
-    this.props.onListGroupUpdate?.(listCopy)
-  }
-
-  /**
    * Initializes the children. Only detects ```ReOrderableList``` components and passes special properties to them.
    *
    * @private
@@ -59,9 +48,7 @@ export default class ReOrderableListGroup extends Component {
               ? get(index, this.props.group)
               : child.props.list,
             path: isEmpty(child.props.path) ? index : child.props.path,
-            group: this.props.group,
-            onListUpdate: this._onListUpdate,
-            onListGroupUpdate: this._onListGroupUpdate
+            onListUpdate: this._onListUpdate
           }
           index++
           return React.cloneElement(child, props)
@@ -79,6 +66,6 @@ export default class ReOrderableListGroup extends Component {
    * @memberof ReOrderableListGroup
    */
   render() {
-    return <>{this._initializeChildren()}</>
+    return <React.Fragment>{this._initializeChildren()}</React.Fragment>
   }
 }
