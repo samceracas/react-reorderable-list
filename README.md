@@ -74,7 +74,7 @@ export default function () {
 ```
 
 #### Unwrapped reorderable list group
-A group of lists not bound within a ```ReOrderableListGroup``` component. Useful for use cases where you need to put multiple reorderable lists into different components while still making them interactable with each other. A state management system such as Redux is required for managing app states.
+A group of lists not bound within a ```ReOrderableListGroup``` component. Useful for use cases where you need to put multiple reorderable lists into different components while still making them interactable with each other. A state management system such as Redux is required for managing app states for such scenarios.
 
 ```jsx
 import React, { useState } from 'react'
@@ -212,32 +212,31 @@ Below are the primary components used when making lists along with the available
 ####  ReOrderableListGroup
 | Property                           | Type     | Description                                                                                   | Default         |
 | ---------------------------------- | -------- | --------------------------------------------------------------------------------------------- | --------------- |
-| ```name``` (**Required**)              | String   | The identifier when validating transferred items. This must be unique from other list groups. | ```undefined``` |
-| ```group``` (**Required**)             | Array    | The array of lists for this group.                                                            | ```null```      |
-| ```onListGroupUpdate``` (**Required**) | Function | The callback function which passes the new value for ```group``` as parameter.                             | ```undefined``` |
+| ```name``` (Required)              | String   | The identifier when validating transferred items. This must be unique from other list groups. | ```undefined``` |
+| ```group``` (Required)             | Array    | The array of lists for this group.                                                            | ```null```      |
+| ```onListGroupUpdate``` (Required) | Function | The callback function which passes the new value for ```group``` as parameter.                             | ```undefined``` |
 
 
 ####  ReOrderableList
 | Property                                                                                                              | Type     | Description                                                                                  | Default         |
 | --------------------------------------------------------------------------------------------------------------------- | -------- | -------------------------------------------------------------------------------------------- | --------------- |
-| ```name``` (**Required**) | String   | The identifier when validating transferred items. This must be unique from other list groups. | ```undefined``` |
-| ```group``` (**Required** when the list is not wrapped within a ```ReOrderableListGroup``` component, otherwise **Optional**)                                                                                                | Array    | The array of lists for this group.                                                           | ```null```      |
-| ```list``` (**Required** when this list is ungrouped, otherwise **Optional**)                                                                                    | Array | The data for this list. This is automatically set when wrapped within a ```ReOrderableListGroup```.                            | ```[]``` |
-| ```onListUpdate``` (**Required**)                                                                                    | Function | The callback function which passes the new value for ```group```.                            | ```undefined``` |
-| ```path``` (**Optional**)                                                                                    | String \| Number | The index or object path needed to access the list array from the group. This property is automatically set when wrapped within a ```ReOrderableListGroup``` using the index as the accessor the to the list array.| ```0``` 
-| ```component``` (**Optional**) | String \| Component | Define a custom component for this list. | ```div``` |
-| ```orientation``` (**Optional**) | String  | The orientation for this list. Use ```vertical``` for vertically oriented lists, otherwise use ```horizontal```. | ```vertical``` |
-| ```placeholder``` (**Optional**) | Function | A function that returns a ```Component``` or ```HTMLElement``` to be used as placeholder when an item is being hovered on the list. Passes the currently dragged ```ReOrderableItem``` as parameter. | ```(item) => <div style={{  width: `${item.rect.width}px`, height: `${item.rect.height}px`, backgroundColor: 'rgba(0, 0, 0, 0.1)' }} />```
- |
+| ```name``` (Required) | String   | The identifier when validating transferred items. This must be unique from other list groups. | ```undefined``` |
+| ```group``` (Required when the list is not wrapped within a ```ReOrderableListGroup``` component, otherwise Optional)                                                                                                | Array    | The array of lists for this group.                                                           | ```null```      |
+| ```list``` (Required when this list is ungrouped, otherwise Optional)                                                                                    | Array | The data for this list. This is automatically set when wrapped within a ```ReOrderableListGroup```.                            | ```[]``` |
+| ```onListUpdate``` (Required)                                                                                    | Function | The callback function which passes the new value for ```group```.                            | ```undefined``` |
+| ```path``` (Optional)                                                                                    | String \| Number | The index or object path needed to access the list array from the group. This property is automatically set when wrapped within a ```ReOrderableListGroup``` using the index as the accessor the to the list array.| ```0``` 
+| ```component``` (Optional) | String \| Component | Define a custom component for this list. | ```div``` |
+| ```orientation``` (Optional) | String  | The orientation for this list. Use ```vertical``` for vertically oriented lists, otherwise use ```horizontal```. | ```vertical``` |
+| ```placeholder``` (Optional) | Function | A function that returns a ```Component``` or ```HTMLElement``` to be used as placeholder when an item is being hovered on the list. Passes the currently dragged ```ReOrderableItem``` as parameter. | ```(item) => <div style={{  width: `${item.rect.width}px`, height: `${item.rect.height}px`, backgroundColor: 'rgba(0, 0, 0, 0.1)' }} />```
 
  
 ####  ReOrderableItem
 | Property| Type| Description | Default |
 | ---------------------------------- | -------- | --------------------------------------------------------------------------------------------- | --------------- |
-| ```drag``` (**Optional**) | String   | A function that returns a ```Component``` or ```HTMLElement``` to be used as graphic when dragging an item. Manually setting the ```width``` and ```height``` styles is required before returning the element or component. Passes the currently dragged ```ReOrderableItem``` as parameter. | A clone of the item element. |
-| ```component``` (**Optional**) | String \| Component | The component to be used for this item. | ```div``` |
-| ```itemIndex``` (**Optional**) | Number | The index for this item on the list. This property is automatically set by the ```ReOrderableList``` component but can be manually overridden.. | ```0``` |
-| ```itemData``` (**Optional**) | Object | The data for this item. This property is automatically set by the ```ReOrderableList``` component but can be manually overridden. | ```null``` |
+| ```drag``` (Optional) | String   | A function that returns a ```Component``` or ```HTMLElement``` to be used as graphic when dragging an item. Manually setting the ```width``` and ```height``` styles is required before returning the element or component. Passes the currently dragged ```ReOrderableItem``` as parameter. | A clone of the item element. |
+| ```component``` (Optional) | String \| Component | The component to be used for this item. | ```div``` |
+| ```itemIndex``` (Optional) | Number | The index for this item on the list. This property is automatically set by the ```ReOrderableList``` component but can be manually overridden.. | ```0``` |
+| ```itemData``` (Optional) | Object | The data for this item. This property is automatically set by the ```ReOrderableList``` component but can be manually overridden. | ```null``` |
 
 ## License
 
