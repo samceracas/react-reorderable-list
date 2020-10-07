@@ -282,15 +282,7 @@ export default class ReOrderableItem extends Component {
 
     document.body.style.cursor = ''
 
-    if (!this._overlappingList) {
-      this.props.onItemDragEnd?.({
-        item: this,
-        pageX: event.pageX,
-        pageY: event.pageY,
-        clientX: event.clientX,
-        clientY: event.clientY
-      })
-    } else {
+    if (this._overlappingList) {
       this._overlappingList.dispatchEvent(
         // eslint-disable-next-line no-undef
         new CustomEvent('drop', {
@@ -303,6 +295,14 @@ export default class ReOrderableItem extends Component {
         })
       )
     }
+
+    this.props.onItemDragEnd?.({
+      item: this,
+      pageX: event.pageX,
+      pageY: event.pageY,
+      clientX: event.clientX,
+      clientY: event.clientY
+    })
 
     this._overlappingList = null
     this._isDragging = false

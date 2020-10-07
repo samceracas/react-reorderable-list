@@ -32,53 +32,70 @@ export default class ListController {
   }
 
   /**
-   * Transfers an item from one list to another or reorders the items if the ```sourceList``` is null.
+   * Moves an item to the target index.
    *
-   * @param {ListItem} sourceItem
-   * @param {List} sourceList
-   * @param {Number} targetIndex
+   * @param {*} sourceItem
+   * @param {*} targetIndex
    * @memberof ListController
    */
-  updateList(sourceItem, targetIndex, sourceList = null, callback = null) {
+  moveItem(sourceItem, targetIndex) {
     let targetList = [...this.model.listData]
-    sourceList = !sourceList ? this.model : sourceList
+    const itemIndex = sourceItem.index
+    targetList = arrayMove(targetList, itemIndex, targetIndex)
+    let params = [targetList, this.model.path]
+    if (this.model.group) {
+      const groupCopy = [...this.model.group]
+      set(this.model.path, groupCopy, targetList)
+      params = [groupCopy]
+    }
+    return params
+  }
 
+  /**
+   * Transfers an item to this list.
+   *
+   * @param {*} sourceItem
+   * @param {*} [sourceList]
+   * @param {*} targetIndex
+   * @memberof ListController
+   */
+  transferItem(sourceItem, sourceList, targetIndex) {
+    let targetList = [...this.model.listData]
     const itemData = sourceItem.data
     const itemIndex = sourceItem.index
 
     const sourceListPath = sourceList.path
-    const onListUpdate = callback?.onListUpdate
+    // make a copy of the group
+    const groupCopy = [...this.model.group]
+    // remove the source item from its list
+    const sourceListData = sourceList.listData.filter(
+      (item, index) => index !== itemIndex
+    )
+    // add the item to the new list
+    targetList.push(itemData)
+    // move the newly added item to the target index
+    targetList = arrayMove(targetList, targetList.length - 1, targetIndex)
+    // set the new source and target list
+    set(sourceListPath, groupCopy, sourceListData)
+    set(this.model.path, groupCopy, targetList)
 
+    // return the group
+    return [groupCopy]
+  }
+
+  /**
+   * Transfers an item from one list to another or reorders the items if the ```sourceList``` is null.
+   *
+   * @param {ListItem} sourceItem
+   * @param {Number} targetIndex
+   * @param {List} sourceList
+   * @memberof ListController
+   */
+  updateList(sourceItem, sourceList, targetIndex) {
+    sourceList = !sourceList ? this.model : sourceList
     if (this.model.instanceID === sourceList.instanceID) {
-      targetList = arrayMove(targetList, itemIndex, targetIndex)
-      let params = [targetList, this.model.path]
-      if (this.model.group) {
-        const groupCopy = [...this.model.group]
-        set(this.model.path, groupCopy, targetList)
-        params = [groupCopy]
-      }
-      onListUpdate?.apply(this, params)
-    } else {
-      const sourceListData = sourceList.listData.filter(
-        (item, index) => index !== itemIndex
-      )
-      targetList.push(itemData)
-      targetList = arrayMove(targetList, targetList.length - 1, targetIndex)
-      const toUpdate = [
-        {
-          path: sourceListPath,
-          list: sourceListData
-        },
-        {
-          path: this.model.path,
-          list: targetList
-        }
-      ]
-      if (this.model.group) {
-        const groupCopy = [...this.model.group]
-        toUpdate.forEach((data) => set(data.path, groupCopy, data.list))
-        onListUpdate?.call(this, groupCopy)
-      }
+      return this.moveItem(sourceItem, targetIndex)
     }
+    return this.transferItem(sourceItem, sourceList, targetIndex)
   }
 }

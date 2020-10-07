@@ -249,14 +249,12 @@ export default class ReOrderableList extends Component {
    * @memberof ReOrderableList
    */
   _updateList(item, targetIndex) {
-    this.controller.updateList(
+    const params = this.controller.updateList(
       item.model,
-      targetIndex,
       item.listComponent.model,
-      {
-        onListUpdate: this.props.onListUpdate
-      }
+      targetIndex
     )
+    this.props.onListUpdate?.apply(this, params)
   }
 
   /**
@@ -378,13 +376,7 @@ export default class ReOrderableList extends Component {
       item.classList.contains('item-placeholder')
     )
 
-    if (index < 0) {
-      this._resetDragData()
-      return
-    }
-
     this._updateList(item, index)
-    this._resetDragData()
   }
 
   /**

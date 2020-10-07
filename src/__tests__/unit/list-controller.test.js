@@ -99,21 +99,20 @@ describe('List Controller', () => {
     const firstGroup = groups[0]
     const secondGroup = groups[1]
 
-    expect.assertions(2)
-
-    secondGroup.updateList(firstGroup.model.listItems[0], 0, firstGroup.model, {
-      onListUpdate: (group) => {
-        expect(group[0].tasks).toEqual([
-          { id: 2, name: 'Hello' },
-          { id: 3, name: 'World!' }
-        ])
-        expect(group[1].tasks).toEqual([
-          { id: 1, name: 'Test' },
-          { id: 1, name: 'Item' },
-          { id: 2, name: 'Name' }
-        ])
-      }
-    })
+    const newGroup = secondGroup.updateList(
+      firstGroup.model.listItems[0],
+      firstGroup.model,
+      0
+    )[0]
+    expect(newGroup[0].tasks).toEqual([
+      { id: 2, name: 'Hello' },
+      { id: 3, name: 'World!' }
+    ])
+    expect(newGroup[1].tasks).toEqual([
+      { id: 1, name: 'Test' },
+      { id: 1, name: 'Item' },
+      { id: 2, name: 'Name' }
+    ])
   })
 
   it('When list is not embedded in an object, model.listData must be array', () => {
@@ -152,19 +151,20 @@ describe('List Controller', () => {
 
     expect.assertions(2)
 
-    secondGroup.updateList(firstGroup.model.listItems[0], 0, firstGroup.model, {
-      onListUpdate: (group) => {
-        expect(group[0]).toEqual([
-          { id: 2, name: 'Hello' },
-          { id: 3, name: 'World!' }
-        ])
-        expect(group[1]).toEqual([
-          { id: 1, name: 'Test' },
-          { id: 1, name: 'Item' },
-          { id: 2, name: 'Name' }
-        ])
-      }
-    })
+    const newGroup = secondGroup.updateList(
+      firstGroup.model.listItems[0],
+      firstGroup.model,
+      0
+    )[0]
+    expect(newGroup[0]).toEqual([
+      { id: 2, name: 'Hello' },
+      { id: 3, name: 'World!' }
+    ])
+    expect(newGroup[1]).toEqual([
+      { id: 1, name: 'Test' },
+      { id: 1, name: 'Item' },
+      { id: 2, name: 'Name' }
+    ])
   })
 
   it('Reorders data properly on a list', () => {
@@ -172,14 +172,15 @@ describe('List Controller', () => {
       list,
       name: 'list'
     })
-    listController.updateList(listController.model.listItems[0], 1, null, {
-      onListUpdate: (list) => {
-        expect(list).toEqual([
-          { id: 1, name: 'Test' },
-          { id: 2, name: 'Hello' },
-          { id: 3, name: 'World!' }
-        ])
-      }
-    })
+    const newList = listController.updateList(
+      listController.model.listItems[0],
+      null,
+      1
+    )[0]
+    expect(newList).toEqual([
+      { id: 1, name: 'Test' },
+      { id: 2, name: 'Hello' },
+      { id: 3, name: 'World!' }
+    ])
   })
 })
