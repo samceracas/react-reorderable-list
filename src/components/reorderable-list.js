@@ -33,8 +33,9 @@ export default class ReOrderableList extends Component {
     component: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
-      PropTypes.instanceOf(Component)
+      PropTypes.object
     ]).isRequired,
+    componentProps: PropTypes.object,
     orientation: PropTypes.oneOf(['vertical', 'horizontal']).isRequired,
     placeholder: PropTypes.oneOfType([
       PropTypes.instanceOf(Object),
@@ -110,6 +111,26 @@ export default class ReOrderableList extends Component {
 
     this._itemPlaceholder = null
     this._controller = new ListController(props)
+  }
+
+  /**
+   * Returns the instance id for this list.
+   *
+   * @readonly
+   * @memberof ReOrderableList
+   */
+  get instanceID() {
+    return this.controller.model.instanceID
+  }
+
+  /**
+   * Returns the group id for this list.
+   *
+   * @readonly
+   * @memberof ReOrderableList
+   */
+  get groupID() {
+    return this.controller.model.groupID
   }
 
   /**
@@ -331,11 +352,13 @@ export default class ReOrderableList extends Component {
    */
   _onDragOver = (event) => {
     const { item } = event.detail
-
+    event.stopPropagation()
     this.itemPlaceholder?.remove()
 
     const filteredItems = [
-      ...this.element.querySelectorAll(`.ui-reorderable-item:not([hidden])`)
+      ...this.element.querySelectorAll(
+        `.ui-reorderable-item.${this.instanceID}:not([hidden])`
+      )
     ]
 
     if (filteredItems.length <= 0) {
@@ -367,6 +390,7 @@ export default class ReOrderableList extends Component {
    */
   _onDrop = (event) => {
     const { item } = event.detail
+    event.stopPropagation()
 
     const filteredItems = [
       ...this.element.querySelectorAll(`.ui-reorderable-item:not([hidden])`)
@@ -391,17 +415,17 @@ export default class ReOrderableList extends Component {
 
     return (
       <CustomComponent
+        {...this.props.componentProps}
         ref={(ref) => (this._listRef = ref)}
         className={[
           'ui-reorderable-list',
-          this.controller.model.instanceID,
-          this.controller.model.groupID,
-          this.props.className
+          this.instanceID,
+          this.groupID,
+          this.props.componentProps?.className
         ].join(' ')}
         onDrop={this._onDrop}
         onDragOver={this._onDragOver}
         onDragExit={this._onDragExit}
-        style={{ ...this.props.style }}
       >
         {this._initializeChildren()}
       </CustomComponent>

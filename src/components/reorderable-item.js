@@ -27,6 +27,7 @@ export default class ReOrderableItem extends Component {
       return itemCopy
     },
     component: `div`,
+    componentProps: null,
     itemIndex: 0,
     itemData: null
   }
@@ -98,6 +99,7 @@ export default class ReOrderableItem extends Component {
       this._draggedElement = React.isValidElement(element)
         ? JSXToDOMElement(element)
         : element
+      element.style.zIndex = '99999'
     }
     return this._draggedElement
   }
@@ -307,6 +309,7 @@ export default class ReOrderableItem extends Component {
     this._overlappingList = null
     this._isDragging = false
     if (this._itemRef) {
+      this._itemRef.style.display = ''
       this._itemRef.hidden = false
     }
 
@@ -325,6 +328,7 @@ export default class ReOrderableItem extends Component {
     if (this._isDragging) return
 
     event.preventDefault()
+    event.stopPropagation()
 
     this._clonedItem = null
     this._beforeDragRect = this._itemRef.getBoundingClientRect()
@@ -335,8 +339,8 @@ export default class ReOrderableItem extends Component {
     }
 
     this._offset = {
-      x: event.pageX - this._beforeDragRect.x - this._halfWidth,
-      y: event.pageY - this._beforeDragRect.y - this._halfHeight
+      x: event.clientX - this._beforeDragRect.left - this._halfWidth,
+      y: event.clientY - this._beforeDragRect.top - this._halfHeight
     }
 
     const dragX = event.pageX - this._halfWidth - this._offset.x
@@ -350,6 +354,7 @@ export default class ReOrderableItem extends Component {
 
     document.body.appendChild(this.draggedElement)
 
+    this._itemRef.style.display = 'none'
     this._itemRef.hidden = true
 
     this.props.onItemDragStart?.({
@@ -377,14 +382,15 @@ export default class ReOrderableItem extends Component {
 
     return (
       <Component
+        {...this.props.componentProps}
         className={[
           'ui-reorderable-item',
+          this.listComponent.instanceID,
           this.model.instanceID,
-          this.props.className
+          this.props.componentProps?.className
         ].join(' ')}
-        onDragStart={this._onDragStart}
-        style={{ ...this.props.style }}
         ref={(ref) => (this._itemRef = ref)}
+        onDragStart={this._onDragStart}
         draggable
       >
         {React.Children.only(this.props.children)}

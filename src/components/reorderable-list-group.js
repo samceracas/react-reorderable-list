@@ -48,7 +48,8 @@ export default class ReOrderableListGroup extends Component {
               ? get(index, this.props.group)
               : child.props.list,
             path: isEmpty(child.props.path) ? index : child.props.path,
-            onListUpdate: this._onListUpdate
+            onListUpdate: this._onListUpdate,
+            group: this.props.group
           }
           index++
           return React.cloneElement(child, props)
