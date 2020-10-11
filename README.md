@@ -1,4 +1,4 @@
-# react-reorderable-list
+# react-reorderable-list 📄
 
 > A simple UI framework friendly reorderable list component for React.
 
@@ -313,7 +313,7 @@ Below are the primary components used when making lists along with the available
 ####  ReOrderableItem
 | Property| Type| Description |
 | ---------------------------------- | -------- | --------------------------------------------------------------------------------------------- |
-| ```instanceID``` | String   | A function that returns a ```Component``` or ```HTMLElement``` to be used as graphic when dragging an item. Manually setting the ```width``` and ```height``` styles is required before returning the element or component. Passes the currently dragged ```ReOrderableItem``` as parameter. |
+| ```instanceID``` | String   | The instance ID for this reorderable item. |
 | ```model``` | Object | An model with the following properties. <pre>{<br /> data, //the data for this item.<br /> index, //the index for this item on the list.<br /> instanceID, //the instance id for this item.<br />}</pre> |
 | ```draggedElement``` | HTMLElement | The element being dragged. This is basically a copy of the item element but is used as graphic when dragging the item. |
 | ```listComponent``` | ReOrderableList | The ```ReOrderableList``` component this item belongs to. |

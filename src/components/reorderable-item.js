@@ -202,9 +202,7 @@ export default class ReOrderableItem extends Component {
    * @memberof ReOrderableItem
    */
   _checkOverlappingElements() {
-    const list = document.querySelectorAll(
-      `.${this.listComponent.model.groupID}`
-    )
+    const list = this._groupListElements
     const previousList = this._overlappingList
 
     document.body.style.cursor = ''
@@ -332,6 +330,9 @@ export default class ReOrderableItem extends Component {
 
     this._clonedItem = null
     this._beforeDragRect = this._itemRef.getBoundingClientRect()
+    this._groupListElements = document.querySelectorAll(
+      `.${this.listComponent.model.groupID}`
+    )
 
     if (!this._halfWidth && !this._halfHeight) {
       this._halfWidth = this._beforeDragRect.width / 2

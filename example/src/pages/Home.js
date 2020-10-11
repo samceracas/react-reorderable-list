@@ -6,8 +6,10 @@ export default function () {
   return (
     <Box display='flex' height='100%'>
       <Box margin='auto' textAlign='center'>
-        <h3>Below are some examples using different UI frameworks:</h3>
+        <h4>Below are some examples using different UI frameworks:</h4>
         <Link to='/material-ui'>Material UI</Link>
+
+        <p>More coming soon!</p>
       </Box>
     </Box>
   )
