@@ -7,10 +7,22 @@ import { Box } from '@material-ui/core'
 import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter'
 import jsx from 'react-syntax-highlighter/dist/esm/languages/prism/jsx'
 import { materialDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
+import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem'
+import ListItemText from '@material-ui/core/ListItemText'
+import { makeStyles } from '@material-ui/core/styles'
 
 SyntaxHighlighter.registerLanguage('jsx', jsx)
-
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: '100%',
+    maxWidth: 360,
+    backgroundColor: theme.palette.background.paper,
+    border: '1px solid gray'
+  }
+}))
 export default function () {
+  const classes = useStyles()
   //sample data
   const [list, setList] = useState([
     { id: 1, name: 'This' },
@@ -22,42 +34,27 @@ export default function () {
     <>
       {' '}
       <h4>
-        Using the{' '}
-        <a
-          href='https://material-ui.com/components/lists/'
-          target='_blank'
-          rel='noopener noreferrer'
-        >
-          List
-        </a>{' '}
-        component
+        Ungroupped List
       </h4>
       <Box display='flex' gridGap='10px'>
-        <div style={{ display: 'flex', gap: '20px' }}>
-          <ReOrderableList
-            //The unique identifier for this list. Should be unique from other lists and list groups.
-            name='list2'
-            //your list data
-            list={list}
-            //the list update callback
-            onListUpdate={(newList) => setList(newList)}
-            style={{
-              width: '300px'
-            }}
-          >
-            {list.map((data, index) => (
-              <ReOrderableItem key={`item-${index}`}>
-                <div
-                  style={{
-                    border: '1px solid black'
-                  }}
-                >
-                  {data.name}
-                </div>
-              </ReOrderableItem>
-            ))}
-          </ReOrderableList>
-        </div>
+        <ReOrderableList
+          //The unique identifier for this list. Should be unique from other lists and list groups.
+          name='list2'
+          //your list data
+          list={list}
+          //the list update callback
+          onListUpdate={(newList) => setList(newList)}
+          component={List}
+          componentProps={{
+            className: classes.root
+          }}
+        >
+          {list.map((data, index) => (
+            <ReOrderableItem key={`item-${index}`} component={ListItem}>
+              <ListItemText primary={data.name} />
+            </ReOrderableItem>
+          ))}
+        </ReOrderableList>
       </Box>
       <Accordion>
         <AccordionSummary aria-controls='panel1a-content' id='panel1a-header'>

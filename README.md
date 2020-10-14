@@ -23,6 +23,8 @@ Below are supported use case scenarios for grouped and ungrouped lists.
 #### Wrapped reorderable list group
 A group of lists wrapped within a ```ReOrderableListGroup```. Lists within the group can transfer data to each other. Provides  less setup and a cleaner configuration for generic grouped lists.
 
+![Example](https://i.imgur.com/OkdsVjH.gif)
+
 ```jsx
 import React, { useState } from 'react'
 import {
@@ -231,6 +233,8 @@ export default function () {
 
 #### Ungrouped list
 Ungrouped lists cannot transfer and recieve items from other lists. You can only reorder items from within the list.
+
+![Example](https://i.imgur.com/i7o8rsz.gif)
 ```jsx
 import React, { useState } from 'react'
 import { ReOrderableItem, ReOrderableList } from 'react-reorderable-list'
