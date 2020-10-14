@@ -9,6 +9,7 @@ import jsx from 'react-syntax-highlighter/dist/esm/languages/prism/jsx'
 import UsingLists from './samples/using-lists'
 import NestedLists from './samples/nested-lists'
 import UsingUngrouppedList from './samples/using-ungroupped-list'
+import 'react-reorderable-list/dist/index.css'
 
 SyntaxHighlighter.registerLanguage('jsx', jsx)
 

@@ -2,6 +2,7 @@
 import React, { Component, createRef } from 'react'
 import { getIntersectingElementOnList, JSXToDOMElement } from '../lib/dom'
 import ListItem from '../models/list-item'
+import CSS from '../css/reorderable-item.css'
 
 /**
  * A wrapper for reorderable items. Handles drag and drop logic.
@@ -24,6 +25,7 @@ export default class ReOrderableItem extends Component {
       const itemCopy = item.clonedItemElement
       itemCopy.style.width = `${item.rect.width}px`
       itemCopy.style.height = `${item.rect.height}px`
+      itemCopy.style.zIndex = '9000'
       return itemCopy
     },
     component: `div`,
@@ -99,7 +101,6 @@ export default class ReOrderableItem extends Component {
       this._draggedElement = React.isValidElement(element)
         ? JSXToDOMElement(element)
         : element
-      element.style.zIndex = '99999'
     }
     return this._draggedElement
   }
@@ -205,12 +206,9 @@ export default class ReOrderableItem extends Component {
     const list = this._groupListElements
     const previousList = this._overlappingList
 
-    document.body.style.cursor = ''
-
-    this._overlappingList = getIntersectingElementOnList(
-      this.draggedElement,
-      list
-    )
+    this._overlappingList = getIntersectingElementOnList(this.draggedElement, [
+      ...list
+    ])
 
     if (previousList && !this._overlappingList) {
       this._dispatchCustomEvent(previousList, 'dragexit', {
@@ -219,7 +217,9 @@ export default class ReOrderableItem extends Component {
     }
 
     if (!this._overlappingList) {
-      document.body.style.cursor = 'no-drop'
+      if (!document.body.classList.contains(CSS['ui-item-no-drop'])) {
+        document.body.classList.add(CSS['ui-item-no-drop'])
+      }
       return
     }
 
@@ -236,6 +236,9 @@ export default class ReOrderableItem extends Component {
       this._dispatchCustomEvent(this._overlappingList, 'dragenter', {
         item: this
       })
+      if (document.body.classList.contains(CSS['ui-item-no-drop'])) {
+        document.body.classList.remove(CSS['ui-item-no-drop'])
+      }
     }
 
     this._dispatchCustomEvent(this._overlappingList, 'dragover', {
@@ -280,7 +283,9 @@ export default class ReOrderableItem extends Component {
   _onMouseUp = (event) => {
     if (!this._isDragging) return
 
-    document.body.style.cursor = ''
+    if (document.body.classList.contains(CSS['ui-item-no-drop'])) {
+      document.body.classList.remove(CSS['ui-item-no-drop'])
+    }
 
     if (this._overlappingList) {
       this._overlappingList.dispatchEvent(

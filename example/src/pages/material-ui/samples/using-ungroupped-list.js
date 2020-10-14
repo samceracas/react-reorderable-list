@@ -1,12 +1,5 @@
 import React, { useState } from 'react'
-import {
-  ReOrderableItem,
-  ReOrderableList,
-  ReOrderableListGroup
-} from 'react-reorderable-list'
-import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
-import ListItemText from '@material-ui/core/ListItemText'
+import { ReOrderableItem, ReOrderableList } from 'react-reorderable-list'
 import Accordion from '@material-ui/core/Accordion'
 import AccordionSummary from '@material-ui/core/AccordionSummary'
 import AccordionDetails from '@material-ui/core/AccordionDetails'
@@ -14,20 +7,10 @@ import { Box } from '@material-ui/core'
 import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter'
 import jsx from 'react-syntax-highlighter/dist/esm/languages/prism/jsx'
 import { materialDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
-import { makeStyles } from '@material-ui/core/styles'
 
 SyntaxHighlighter.registerLanguage('jsx', jsx)
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: '100%',
-    maxWidth: 360,
-    backgroundColor: theme.palette.background.paper,
-    border: '1px solid gray'
-  }
-}))
 
 export default function () {
-  const classes = useStyles()
   //sample data
   const [list, setList] = useState([
     { id: 1, name: 'This' },

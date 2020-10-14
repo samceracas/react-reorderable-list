@@ -30,6 +30,7 @@ import {
   ReOrderableList,
   ReOrderableListGroup
 } from 'react-reorderable-list'
+import 'react-reorderable-list/dist/index.css'
 
 export default function () {
   //sample data
@@ -82,6 +83,7 @@ import {
   ReOrderableList,
   ReOrderableListGroup
 } from 'react-reorderable-list'
+import 'react-reorderable-list/dist/index.css'
 
 export default function () {
   //sample data
@@ -144,6 +146,7 @@ A group of lists not bound within a ```ReOrderableListGroup``` component. Useful
 ```jsx
 import React, { useState } from 'react'
 import { ReOrderableItem, ReOrderableList } from 'react-reorderable-list'
+import 'react-reorderable-list/dist/index.css'
 
 export default function () {
   //sample data
@@ -231,6 +234,7 @@ Ungrouped lists cannot transfer and recieve items from other lists. You can only
 ```jsx
 import React, { useState } from 'react'
 import { ReOrderableItem, ReOrderableList } from 'react-reorderable-list'
+import 'react-reorderable-list/dist/index.css'
 
 export default function () {
   //sample data

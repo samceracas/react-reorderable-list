@@ -81,6 +81,22 @@ export function JSXToDOMElement(jsx) {
 }
 
 /**
+ * Checks if two rectangles intersect.
+ *
+ * @param {*} r1
+ * @param {*} r2
+ * @returns {Boolean}
+ */
+function intersectRect(r1, r2) {
+  return !(
+    r2.left > r1.right ||
+    r2.right < r1.left ||
+    r2.top > r1.bottom ||
+    r2.bottom < r1.top
+  )
+}
+
+/**
  * Returns the first intersecting element on the node list.
  * @param {HTMLElement} target
  * @param {NodeList} list
@@ -91,15 +107,10 @@ export function getIntersectingElementOnList(target, list) {
   list = [...list]
   list = list.filter((node) => {
     const nodeRect = node.getBoundingClientRect()
-    return (
-      nodeRect.top + nodeRect.height > targetRect.top &&
-      nodeRect.left + nodeRect.width > targetRect.left &&
-      nodeRect.bottom - nodeRect.height < targetRect.bottom &&
-      nodeRect.right - nodeRect.width < targetRect.right
-    )
+    return intersectRect(nodeRect, targetRect)
   })
 
   if (list.length <= 0) return null
 
-  return getClosestElement(list, target)
+  return list[0]
 }
