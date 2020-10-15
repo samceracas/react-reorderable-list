@@ -1,6 +1,6 @@
 {
   "name": "react-reorderable-list",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A simple UI framework friendly reorderable list component for React.",
   "author": "samceracas",
   "license": "MIT",
@@ -23,7 +23,6 @@
   "scripts": {
     "build": "microbundle-crl --no-compress --format modern,cjs",
     "start": "microbundle-crl watch --no-compress --format modern,cjs",
-    "prepare": "run-s build",
     "test": "run-s test:unit test:lint test:build",
     "test:build": "run-s build",
     "test:lint": "eslint .",

@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import { HashRouter as Router, Switch, Route } from 'react-router-dom'
 import Home from './pages/Home'
 import ReactBoostrap from './pages/react-bootstrap';
 import MaterialUI from './pages/material-ui';
