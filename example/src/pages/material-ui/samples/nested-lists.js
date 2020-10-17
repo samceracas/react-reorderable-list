@@ -79,8 +79,10 @@ export default function () {
                 }}
               >
                 {list.tasks.map((data, index) => (
-                  <ReOrderableItem key={`item-${index}`} component={ListItem}>
-                    <ListItemText primary={data.name} />
+                  <ReOrderableItem key={`item-${index}`}>
+                    <ListItem>
+                      <ListItemText primary={data.name} />
+                    </ListItem>
                   </ReOrderableItem>
                 ))}
               </ReOrderableList>
@@ -167,10 +169,10 @@ export default function () {
                         ),
                      }}>
                      {list.tasks.map((data, index) => (
-                        <ReOrderableItem
-                           key={\`item-\${index}\`}
-                           component={ListItem}>
+                        <ReOrderableItem key={\`item-\${index}\`}>
+                          <ListItem>
                            <ListItemText primary={data.name} />
+                         </ListItem>
                         </ReOrderableItem>
                      ))}
                   </ReOrderableList>

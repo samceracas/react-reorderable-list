@@ -1,12 +1,16 @@
 /* eslint-disable no-unused-expressions */
 import React, { Component, createRef } from 'react'
-import { getIntersectingElementOnList, JSXToDOMElement } from '../lib/dom'
+import {
+  getIntersectingElementOnList,
+  isTouchDevice,
+  JSXToDOMElement
+} from '../lib/dom'
 import ListItem from '../models/list-item'
-import CSS from '../css/reorderable-item.css'
+import styles from '../css/reorderable-item.css'
+import { distance } from '../lib/math'
 
 /**
  * A wrapper for reorderable items. Handles drag and drop logic.
- * This partially uses the HTML drag and drop API but the rest of the logic is handled through mouse API.
  *
  * @class ReOrderableItem
  * @author Ezequiel Sam Ceracas
@@ -52,6 +56,25 @@ export default class ReOrderableItem extends Component {
       y: 0
     }
 
+    this._dragTrigger = {
+      mouseDown: false,
+      prevX: 0,
+      prevY: 0
+    }
+
+    this._inputEvents = {
+      touch: {
+        down: 'touchstart',
+        up: 'touchend',
+        move: 'touchmove'
+      },
+      click: {
+        down: 'mousedown',
+        up: 'mouseup',
+        move: 'mousemove'
+      }
+    }
+
     this._itemRef = null
 
     this._isDragging = false
@@ -61,8 +84,13 @@ export default class ReOrderableItem extends Component {
 
     this._model = new ListItem(props)
 
-    this._onMouseMove = this._onMouseMove.bind(this)
-    this._onMouseUp = this._onMouseUp.bind(this)
+    this._onItemMouseMove = this._onItemMouseMove.bind(this)
+    this._onItemMouseUp = this._onItemMouseUp.bind(this)
+    this._onItemMouseDown = this._onItemMouseDown.bind(this)
+
+    this._handleDrag = this._handleDrag.bind(this)
+    this._handleDragStart = this._handleDragStart.bind(this)
+    this._handleDragEnd = this._handleDragEnd.bind(this)
     this._itemRef = createRef()
   }
 
@@ -158,8 +186,16 @@ export default class ReOrderableItem extends Component {
    * @memberof ReOrderableItem
    */
   componentDidMount() {
-    document.addEventListener('mousemove', this._onMouseMove)
-    document.addEventListener('mouseup', this._onMouseUp)
+    const inputControl = isTouchDevice() ? 'touch' : 'click'
+    const inputEvents = this._inputEvents[inputControl]
+
+    document.addEventListener(inputEvents.move, this._handleDrag, {
+      passive: false
+    })
+    document.addEventListener(inputEvents.up, this._handleDragEnd)
+    this._itemRef.addEventListener(inputEvents.down, this._onItemMouseDown)
+    this._itemRef.addEventListener(inputEvents.move, this._onItemMouseMove)
+    this._itemRef.addEventListener(inputEvents.up, this._onItemMouseUp)
   }
 
   /**
@@ -168,8 +204,15 @@ export default class ReOrderableItem extends Component {
    * @memberof ReOrderableItem
    */
   componentWillUnmount() {
-    document.removeEventListener('mousemove', this._onMouseMove)
-    document.removeEventListener('mouseup', this._onMouseUp)
+    const inputControl = isTouchDevice() ? 'touch' : 'click'
+    const inputEvents = this._inputEvents[inputControl]
+    document.removeEventListener(inputEvents.move, this._handleDrag, {
+      passive: false
+    })
+    document.removeEventListener(inputEvents.up, this._handleDragEnd)
+    this._itemRef.removeEventListener(inputEvents.down, this._onItemMouseDown)
+    this._itemRef.removeEventListener(inputEvents.move, this._onItemMouseMove)
+    this._itemRef.removeEventListener(inputEvents.up, this._onItemMouseUp)
   }
 
   /**
@@ -217,8 +260,8 @@ export default class ReOrderableItem extends Component {
     }
 
     if (!this._overlappingList) {
-      if (!document.body.classList.contains(CSS['ui-item-no-drop'])) {
-        document.body.classList.add(CSS['ui-item-no-drop'])
+      if (!document.body.classList.contains(styles.noDrop)) {
+        document.body.classList.add(styles.noDrop)
       }
       return
     }
@@ -236,8 +279,8 @@ export default class ReOrderableItem extends Component {
       this._dispatchCustomEvent(this._overlappingList, 'dragenter', {
         item: this
       })
-      if (document.body.classList.contains(CSS['ui-item-no-drop'])) {
-        document.body.classList.remove(CSS['ui-item-no-drop'])
+      if (document.body.classList.contains(styles.noDrop)) {
+        document.body.classList.remove(styles.noDrop)
       }
     }
 
@@ -246,17 +289,12 @@ export default class ReOrderableItem extends Component {
     })
   }
 
-  /**
-   * Mouse move event handler.
-   *
-   * @private
-   * @memberof ReOrderableItem
-   */
-  _onMouseMove = (event) => {
+  _handleDrag(event) {
     if (!this._isDragging) return
-
-    const dragX = event.pageX - this._halfWidth - this._offset.x
-    const dragY = event.pageY - this._halfHeight - this._offset.y
+    if (isTouchDevice()) event.preventDefault()
+    const input = isTouchDevice() ? event.changedTouches[0] : event
+    const dragX = input.pageX - this._halfWidth - this._offset.x
+    const dragY = input.pageY - this._halfHeight - this._offset.y
 
     this.draggedElement.style.left = `${dragX}px`
     this.draggedElement.style.top = `${dragY}px`
@@ -267,24 +305,19 @@ export default class ReOrderableItem extends Component {
       item: this,
       dragX,
       dragY,
-      pageX: event.pageX,
-      pageY: event.pageY,
-      clientX: event.clientX,
-      clientY: event.clientY
+      pageX: input.pageX,
+      pageY: input.pageY,
+      clientX: input.clientX,
+      clientY: input.clientY
     })
   }
 
-  /**
-   * Mouse up event handler.
-   *
-   * @private
-   * @memberof ReOrderableItem
-   */
-  _onMouseUp = (event) => {
+  _handleDragEnd(event) {
     if (!this._isDragging) return
+    const input = isTouchDevice() ? event.changedTouches[0] : event
 
-    if (document.body.classList.contains(CSS['ui-item-no-drop'])) {
-      document.body.classList.remove(CSS['ui-item-no-drop'])
+    if (document.body.classList.contains(styles.noDrop)) {
+      document.body.classList.remove(styles.noDrop)
     }
 
     if (this._overlappingList) {
@@ -303,10 +336,10 @@ export default class ReOrderableItem extends Component {
 
     this.props.onItemDragEnd?.({
       item: this,
-      pageX: event.pageX,
-      pageY: event.pageY,
-      clientX: event.clientX,
-      clientY: event.clientY
+      pageX: input.pageX,
+      pageY: input.pageY,
+      clientX: input.clientX,
+      clientY: input.clientY
     })
 
     this._overlappingList = null
@@ -321,18 +354,12 @@ export default class ReOrderableItem extends Component {
     this._draggedElement = null
   }
 
-  /**
-   * Drag start event handler.
-   *
-   * @private
-   * @memberof ReOrderableItem
-   */
-  _onDragStart = (event) => {
+  _handleDragStart(event) {
     if (this._isDragging) return
 
-    event.preventDefault()
-    event.stopPropagation()
+    document.getSelection().empty()
 
+    const input = isTouchDevice() ? event.changedTouches[0] : event
     this._clonedItem = null
     this._beforeDragRect = this._itemRef.getBoundingClientRect()
     this._groupListElements = document.querySelectorAll(
@@ -345,12 +372,12 @@ export default class ReOrderableItem extends Component {
     }
 
     this._offset = {
-      x: event.clientX - this._beforeDragRect.left - this._halfWidth,
-      y: event.clientY - this._beforeDragRect.top - this._halfHeight
+      x: input.clientX - this._beforeDragRect.left - this._halfWidth,
+      y: input.clientY - this._beforeDragRect.top - this._halfHeight
     }
 
-    const dragX = event.pageX - this._halfWidth - this._offset.x
-    const dragY = event.pageY - this._halfHeight - this._offset.y
+    const dragX = input.pageX - this._halfWidth - this._offset.x
+    const dragY = input.pageY - this._halfHeight - this._offset.y
 
     this._isDragging = true
 
@@ -367,13 +394,69 @@ export default class ReOrderableItem extends Component {
       item: this,
       dragX,
       dragY,
-      pageX: event.pageX,
-      pageY: event.pageY,
-      clientX: event.clientX,
-      clientY: event.clientY
+      pageX: input.pageX,
+      pageY: input.pageY,
+      clientX: input.clientX,
+      clientY: input.clientY
     })
 
     this._checkOverlappingElements()
+  }
+
+  /**
+   * Mouse move event handler.
+   *
+   * @private
+   * @memberof ReOrderableItem
+   */
+  _onItemMouseMove = (event) => {
+    const input = isTouchDevice() ? event.changedTouches[0] : event
+
+    if (this._dragTrigger.mouseDown && !this._isDragging) {
+      const dist = distance(
+        {
+          x: input.pageX,
+          y: input.pageY
+        },
+        {
+          x: this._dragTrigger.prevX,
+          y: this._dragTrigger.prevY
+        }
+      )
+      if (dist >= 1) {
+        this._dragTrigger.mouseDown = false
+        this._handleDragStart(event)
+      }
+    }
+  }
+
+  /**
+   * Mouse up event handler.
+   *
+   * @private
+   * @memberof ReOrderableItem
+   */
+  _onItemMouseUp = (event) => {
+    if (this._dragTrigger.mouseDown) {
+      this._dragTrigger.mouseDown = false
+    }
+  }
+
+  /**
+   * Mouse down event handler.
+   *
+   * @private
+   * @memberof ReOrderableItem
+   */
+  _onItemMouseDown = (event) => {
+    const input = isTouchDevice() ? event.changedTouches[0] : event
+    const firstMatch = document
+      .elementsFromPoint(input.clientX, input.clientY)
+      .find((e) => e.classList.contains('ui-reorderable-item'))
+    if (firstMatch !== this._itemRef || this._dragTrigger.mouseDown) return
+    this._dragTrigger.mouseDown = true
+    this._dragTrigger.prevX = input.pageX
+    this._dragTrigger.prevY = input.pageY
   }
 
   /**
@@ -391,13 +474,12 @@ export default class ReOrderableItem extends Component {
         {...this.props.componentProps}
         className={[
           'ui-reorderable-item',
+          styles.uiItem,
           this.listComponent.instanceID,
-          this.model.instanceID,
+          this.instanceID,
           this.props.componentProps?.className
         ].join(' ')}
         ref={(ref) => (this._itemRef = ref)}
-        onDragStart={this._onDragStart}
-        draggable
       >
         {React.Children.only(this.props.children)}
       </Component>
