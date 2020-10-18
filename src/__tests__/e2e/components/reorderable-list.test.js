@@ -13,12 +13,17 @@ describe('ReOrderableList component', () => {
       `${firstListSelector} .ui-reorderable-item:first-child`,
       `${secondListSelector} .ui-reorderable-item:first-child`
     )
-    const firstList = await page.$eval(firstListSelector, (e) => e.textContent)
-    const secondList = await page.$eval(
-      secondListSelector,
-      (e) => e.textContent
-    )
+    let firstList = await page.$eval(firstListSelector, (e) => e.textContent)
+    let secondList = await page.$eval(secondListSelector, (e) => e.textContent)
     expect(firstList).toBe('HelloWorld!')
     expect(secondList).toBe('TestItemName')
+    await dragAndDrop(
+      `${secondListSelector} .ui-reorderable-item:first-child`,
+      `${firstListSelector} .ui-reorderable-item:first-child`
+    )
+    firstList = await page.$eval(firstListSelector, (e) => e.textContent)
+    secondList = await page.$eval(secondListSelector, (e) => e.textContent)
+    expect(firstList).toBe('TestHelloWorld!')
+    expect(secondList).toBe('ItemName')
   })
 })

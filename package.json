@@ -28,7 +28,7 @@
     "test:build": "run-s build",
     "test:lint": "eslint .",
     "test:e2e": "jest -c src/__tests__/e2e/jest.config.js",
-    "test:unit": "cross-env CI=1 react-scripts test --env=jsdom",
+    "test:unit": "cross-env CI=1 react-scripts test --env=jsdom --modulePathIgnorePatterns=e2e",
     "test:watch": "react-scripts test --env=jsdom",
     "predeploy": "cd example && yarn install && yarn run build",
     "deploy": "gh-pages -d example/build"
