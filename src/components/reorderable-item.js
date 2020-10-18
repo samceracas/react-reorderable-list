@@ -246,12 +246,13 @@ export default class ReOrderableItem extends Component {
    * @memberof ReOrderableItem
    */
   _checkOverlappingElements() {
-    const list = this._groupListElements
+    const list = Array.prototype.slice.call(this._groupListElements)
     const previousList = this._overlappingList
 
-    this._overlappingList = getIntersectingElementOnList(this.draggedElement, [
-      ...list
-    ])
+    this._overlappingList = getIntersectingElementOnList(
+      this.draggedElement,
+      list
+    )
 
     if (previousList && !this._overlappingList) {
       this._dispatchCustomEvent(previousList, 'dragexit', {

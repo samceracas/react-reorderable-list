@@ -357,11 +357,11 @@ export default class ReOrderableList extends Component {
     event.stopPropagation()
     this.itemPlaceholder.remove()
 
-    const filteredItems = [
-      ...this.element.querySelectorAll(
+    const filteredItems = Array.prototype.slice.call(
+      this.element.querySelectorAll(
         `.ui-reorderable-item.${this.instanceID}:not([hidden])`
       )
-    ]
+    )
 
     if (filteredItems.length <= 0) {
       this.element.appendChild(this.itemPlaceholder)
@@ -394,9 +394,9 @@ export default class ReOrderableList extends Component {
     const { item } = event.detail
     event.stopPropagation()
 
-    const filteredItems = [
-      ...this.element.querySelectorAll(`.ui-reorderable-item:not([hidden])`)
-    ]
+    const filteredItems = Array.prototype.slice.call(
+      this.element.querySelectorAll(`.ui-reorderable-item:not([hidden])`)
+    )
 
     const index = filteredItems.findIndex((item) =>
       item.classList.contains('item-placeholder')

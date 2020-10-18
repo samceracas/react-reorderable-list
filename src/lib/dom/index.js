@@ -99,7 +99,6 @@ function intersectRect(r1, r2) {
  */
 export function getIntersectingElementOnList(target, list) {
   const targetRect = target.getBoundingClientRect()
-  list = [...list]
   list = list.filter((node) => {
     const nodeRect = node.getBoundingClientRect()
     return intersectRect(nodeRect, targetRect)
