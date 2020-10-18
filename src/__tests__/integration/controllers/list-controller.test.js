@@ -1,4 +1,4 @@
-import ListController from '../../controllers/list-controller'
+import ListController from '../../../controllers/list-controller'
 
 const objectGroup = [
   {
