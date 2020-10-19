@@ -3,6 +3,7 @@
 > A simple UI framework friendly reorderable list component for React.
 
 [![NPM](https://img.shields.io/npm/v/react-reorderable-list.svg)](https://www.npmjs.com/package/react-reorderable-list) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com) [![Build Status](https://travis-ci.com/samceracas/react-reorderable-list.svg?branch=master)](https://travis-ci.com/samceracas/react-reorderable-list)
+[![Bundlephobia](https://badgen.net/bundlephobia/minzip/react-reorderable-list)](https://bundlephobia.com/result?p=react-reorderable-list@latest)
 
 ## Install
 
