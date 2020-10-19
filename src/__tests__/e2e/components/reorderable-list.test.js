@@ -6,7 +6,7 @@ describe('ReOrderableList component', () => {
     await page.goto('http://localhost:3001/#/material-ui')
   })
 
-  it('transfers items from wrapped list to another', async () => {
+  it('transfers items from one list to another', async () => {
     const firstListSelector = '.list-group-uniqueGroupName:nth-child(1)'
     const secondListSelector = '.list-group-uniqueGroupName:nth-child(2)'
     await dragAndDrop(
