@@ -1,3 +1,6 @@
-.ui-item-no-drop {
+.noDrop {
   cursor: no-drop;
+}
+.uiItem {
+  touch-action: none;
 }

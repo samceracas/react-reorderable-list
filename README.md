@@ -3,6 +3,7 @@
 > A simple UI framework friendly reorderable list component for React.
 
 [![NPM](https://img.shields.io/npm/v/react-reorderable-list.svg)](https://www.npmjs.com/package/react-reorderable-list) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com) [![Build Status](https://travis-ci.com/samceracas/react-reorderable-list.svg?branch=master)](https://travis-ci.com/samceracas/react-reorderable-list)
+[![Bundlephobia](https://badgen.net/bundlephobia/minzip/react-reorderable-list)](https://bundlephobia.com/result?p=react-reorderable-list@latest)
 
 ## Install
 
@@ -15,12 +16,24 @@ npm install react-reorderable-list
 yarn add react-reorderable-list
 ```
 
-## Usage
+## Features
+ * Supports major browsers.
+ * Can transfer items from one list to another.
+ * Mobile and desktop devices supported.
+ * Horizontal or vertical oriented lists supported. (Even grids)
+ * UI framework friendly.
+ * Control over what the dragged item looks like.
+ * Customizable shadows when items are hovered on a list.
+
+## Examples
+You can head over to our [demo](https://samceracas.github.io/react-reorderable-list/) page to view usage with UI frameworks.
+
+## Supported Use Cases
 There are 2 types of lists available for use. You can use an ungrouped list if you don't want to transfer items between lists or you can use a grouped list which gives you the ability to transfer data from one list to another by dragging and dropping the list item.
 
 Below are supported use case scenarios for grouped and ungrouped lists.
 
-#### Wrapped reorderable list group
+#### Wrapped reorderable list group (Basic Usage)
 A group of lists wrapped within a ```ReOrderableListGroup```. Lists within the group can transfer data to each other. Provides  less setup and a cleaner configuration for generic grouped lists.
 
 ![Example](https://i.imgur.com/OkdsVjH.gif)
@@ -297,13 +310,13 @@ Below are the primary components used when making lists along with the available
 | ```group``` (Required when the list is not wrapped within a ```ReOrderableListGroup``` component, otherwise Optional)                                                                                                | Array    | The array of lists for this group.                                                           | ```null```      |
 | ```list``` (Required when this list is ungrouped, otherwise Optional)                                                                                    | Array | The data for this list. This is automatically set when wrapped within a ```ReOrderableListGroup```.                            | ```[]``` |
 | ```onListUpdate``` (Required)                                                                                    | Function | The callback function which passes the new value for ```group```.                            | ```undefined``` |
-| ```path``` (Optional)                                                                                    | String \| Number | The index or object path needed to access the list array from the group. This property is automatically set when wrapped within a ```ReOrderableListGroup``` using the index as the accessor the to the list array.| ```0``` 
+| ```path``` (Optional)                                                                                    | String \| Number | The index or object path needed to access the list array from the group. This property is automatically set when wrapped within a ```ReOrderableListGroup``` using the index as the accessor the to the list array.| ```0```
 | ```component``` (Optional) | String \| Component | Define a custom component for this list. | ```div``` |
 | ```componentProps``` (Optional) | Object | The props for the component. | ```null``` |
 | ```orientation``` (Optional) | String  | The orientation for this list. Use ```vertical``` for vertically oriented lists, otherwise use ```horizontal```. | ```vertical``` |
 | ```placeholder``` (Optional) | Function | A function that returns a ```Component``` or ```HTMLElement``` to be used as placeholder when an item is being hovered on the list. Passes the currently dragged ```ReOrderableItem``` as parameter. | ```(item) => <div style={{  width: `${item.rect.width}px`, height: `${item.rect.height}px`, backgroundColor: 'rgba(0, 0, 0, 0.1)' }} />```
 
- 
+
 ####  ReOrderableItem
 | Property| Type| Description | Default |
 | ---------------------------------- | -------- | --------------------------------------------------------------------------------------------- | --------------- |
@@ -329,6 +342,8 @@ Below are the primary components used when making lists along with the available
 | ```clonedItemElement``` | HTMLElement | A clone of the item element. |
 | ```rect``` | ClientRect | The bounding client rect of the item element. |
 
+## Issues and Suggestions
+Hi! Your feedback for using this library is very valuable and if you have any issues or suggestions feel free to file them on the Issues page.
 
 ## License
 
