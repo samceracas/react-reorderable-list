@@ -26,7 +26,7 @@ yarn add react-reorderable-list
  * Customizable shadows when items are hovered on a list.
 
 ## Examples
-You can head over to our [demo]([demo](https://samceracas.github.io/react-reorderable-list/)) page to view usage with UI frameworks.
+You can head over to our [demo](https://samceracas.github.io/react-reorderable-list/) page to view usage with UI frameworks.
 
 ## Supported Use Cases
 There are 2 types of lists available for use. You can use an ungrouped list if you don't want to transfer items between lists or you can use a grouped list which gives you the ability to transfer data from one list to another by dragging and dropping the list item.
