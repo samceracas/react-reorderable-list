@@ -188,6 +188,7 @@ export default class ReOrderableList extends Component {
    * @type {HTMLElement}
    */
   get itemPlaceholder() {
+    if (!this.currentDraggedItem) return null
     if (!this._itemPlaceholder) {
       const element = this.props.placeholder?.(this.currentDraggedItem)
       this._itemPlaceholder = React.isValidElement(element)
@@ -351,15 +352,16 @@ export default class ReOrderableList extends Component {
    * @memberof ReOrderableList
    */
   _onDragOver = (event) => {
+    if (!this.itemPlaceholder) return
     const { item } = event.detail
     event.stopPropagation()
-    this.itemPlaceholder?.remove()
+    this.itemPlaceholder.remove()
 
-    const filteredItems = [
-      ...this.element.querySelectorAll(
+    const filteredItems = Array.prototype.slice.call(
+      this.element.querySelectorAll(
         `.ui-reorderable-item.${this.instanceID}:not([hidden])`
       )
-    ]
+    )
 
     if (filteredItems.length <= 0) {
       this.element.appendChild(this.itemPlaceholder)
@@ -392,9 +394,9 @@ export default class ReOrderableList extends Component {
     const { item } = event.detail
     event.stopPropagation()
 
-    const filteredItems = [
-      ...this.element.querySelectorAll(`.ui-reorderable-item:not([hidden])`)
-    ]
+    const filteredItems = Array.prototype.slice.call(
+      this.element.querySelectorAll(`.ui-reorderable-item:not([hidden])`)
+    )
 
     const index = filteredItems.findIndex((item) =>
       item.classList.contains('item-placeholder')

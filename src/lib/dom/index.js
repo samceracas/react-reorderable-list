@@ -1,4 +1,5 @@
 import ReactDOMServer from 'react-dom/server'
+import { distance } from '../math'
 
 /**
  * Inserts an element before the reference element.
@@ -31,22 +32,16 @@ export function insertAfter(container, referenceElement, newElement) {
  */
 export function getClosestElement(nodeList, targetElement) {
   let closestElement = nodeList[0]
-  let xDiff =
-    nodeList[0].getBoundingClientRect().x -
-    targetElement.getBoundingClientRect().x
-  let yDiff =
-    nodeList[0].getBoundingClientRect().y -
-    targetElement.getBoundingClientRect().y
-  let dist = Math.sqrt(xDiff * xDiff + yDiff * yDiff)
+  let dist = distance(
+    closestElement.getBoundingClientRect(),
+    targetElement.getBoundingClientRect()
+  )
 
   nodeList.forEach((element) => {
-    xDiff =
-      element.getBoundingClientRect().x -
-      targetElement.getBoundingClientRect().x
-    yDiff =
-      element.getBoundingClientRect().y -
-      targetElement.getBoundingClientRect().y
-    const currentDist = Math.sqrt(xDiff * xDiff + yDiff * yDiff)
+    const currentDist = distance(
+      element.getBoundingClientRect(),
+      targetElement.getBoundingClientRect()
+    )
     if (currentDist < dist) {
       dist = currentDist
       closestElement = element
@@ -104,7 +99,6 @@ function intersectRect(r1, r2) {
  */
 export function getIntersectingElementOnList(target, list) {
   const targetRect = target.getBoundingClientRect()
-  list = [...list]
   list = list.filter((node) => {
     const nodeRect = node.getBoundingClientRect()
     return intersectRect(nodeRect, targetRect)
@@ -113,4 +107,19 @@ export function getIntersectingElementOnList(target, list) {
   if (list.length <= 0) return null
 
   return list[0]
+}
+
+/**
+ * Detects if the current device has a touch screen.
+ *
+ * @source https://www.labnol.org/code/19616-detect-touch-screen-javascript
+ * @export
+ * @returns {Boolean}
+ */
+export function isTouchDevice() {
+  return (
+    'ontouchstart' in window ||
+    navigator.MaxTouchPoints > 0 ||
+    navigator.msMaxTouchPoints > 0
+  )
 }
