@@ -12,7 +12,9 @@
   },
   "dependencies": {
     "@material-ui/core": "^4.11.0",
+    "bootstrap": "^4.5.3",
     "react": "link:../node_modules/react",
+    "react-bootstrap": "^1.4.0",
     "react-dom": "link:../node_modules/react-dom",
     "react-reorderable-list": "link:..",
     "react-router-dom": "^5.2.0",
@@ -27,8 +29,6 @@
   },
   "browserslist": [
     ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
+    "not dead"
   ]
 }
