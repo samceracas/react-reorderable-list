@@ -6,23 +6,20 @@ import cryptoRandomString from 'crypto-random-string'
  * @export
  * @class ListItem
  * @author Ezequiel Sam Ceracas
- * @version 1.0.0
+ * @version 1.1.0
  */
 export default class ListItem {
-  static _defaults = {
-    itemIndex: 0,
-    itemData: null
-  }
-
   /**
    * Creates an instance of ListItem.
    * @param {*} props
    * @memberof ListItem
    */
   constructor(props) {
-    props = { ...ListItem._defaults, ...props }
-    this._itemIndex = props.itemIndex
-    this._itemData = props.itemData
+    this._itemIndex = props.itemIndex || 0
+    this._itemData = props.itemData || null
+    // @todo
+    this._isEnabled = props.enabled || true
+    this._removeByDragging = props.removeByDragging || false
     this._instanceID =
       'item-instance-' +
       (props._instanceID
@@ -50,6 +47,15 @@ export default class ListItem {
    */
   get data() {
     return this._itemData
+  }
+
+  /**
+   * Returns a flag which indicates if an item is enabled/disabled.
+   *
+   * @memberof ListItem
+   */
+  get enabled() {
+    return this._isEnabled
   }
 
   /**
@@ -81,5 +87,14 @@ export default class ListItem {
    */
   set index(value) {
     this._itemIndex = value
+  }
+
+  /**
+   * Enables/disables the item.
+   *
+   * @memberof ListItem
+   */
+  set enabled(value) {
+    this._isEnabled = value
   }
 }

@@ -123,3 +123,45 @@ export function isTouchDevice() {
     navigator.msMaxTouchPoints > 0
   )
 }
+
+/**
+ * Appends a class or an array of classes to the element if it doesn't exist.
+ *
+ * @export
+ * @param {HTMLElement} element The element to append the class
+ * @param {String|Array} className The class name or a list of class names to append.
+ */
+export function appendClassIfNotExists(element, className) {
+  if (Array.isArray(className)) {
+    className.forEach((val) => {
+      if (!element.classList.contains(val)) {
+        element.classList.add(val)
+      }
+    })
+  } else {
+    if (!element.classList.contains(className)) {
+      element.classList.add(className)
+    }
+  }
+}
+
+/**
+ * Removes a class or an array of classes to the element if it exists.
+ *
+ * @export
+ * @param {HTMLElement} element The element to remove classes
+ * @param {String|Array} className The class name or a list of class names to remove.
+ */
+export function removeClassIfExists(element, className) {
+  if (Array.isArray(className)) {
+    className.forEach((val) => {
+      if (element.classList.contains(val)) {
+        element.classList.remove(val)
+      }
+    })
+  } else {
+    if (element.classList.contains(className)) {
+      element.classList.remove(className)
+    }
+  }
+}
