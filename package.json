@@ -39,10 +39,6 @@
     "deploy": "gh-pages -d example/build"
   },
   "peerDependencies": {
-    "array-move": "^3.0.1",
-    "crypto-random-string": "^3.3.0",
-    "is-empty": "^1.2.0",
-    "prop-types": "^15.7.2",
     "react": "^16.0.0",
     "react-dom": "^16.13.1"
   },
@@ -76,5 +72,10 @@
   "files": [
     "dist"
   ],
-  "dependencies": {}
+  "dependencies": {
+    "array-move": "^3.0.1",
+    "crypto-random-string": "^3.3.0",
+    "is-empty": "^1.2.0",
+    "prop-types": "^15.7.2"
+  }
 }
