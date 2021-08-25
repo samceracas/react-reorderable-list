@@ -48,6 +48,8 @@ export default function () {
     <>
       <h4>Nested Lists</h4>
 
+      <p>The categories "In Progress" and "Complete" can be reordered as well as its children.</p>
+
       <ReOrderableList
         name='categories'
         list={todo}

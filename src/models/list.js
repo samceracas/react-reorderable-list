@@ -8,23 +8,14 @@ import ListItem from './list-item'
  * @export
  * @class List
  * @author Ezequiel Sam Ceracas
- * @version 1.0.0
+ * @version 1.1.0
  */
 export default class List {
-  static _defaults = {
-    name: '',
-    list: [],
-    path: 0,
-    group: null
-  }
-
   constructor(props) {
-    props = { ...List._defaults, ...props }
-
-    this._name = props.name
-    this._list = props.list
-    this._path = props.path
-    this._group = props.group
+    this._name = props.name || ''
+    this._list = props.list || []
+    this._path = props.path || 0
+    this._group = props.group || null
     this._listItems = null
     this._groupID = 'list-group-' + props.name.replace(/ /g, '-')
     this._instanceID =

@@ -1,9 +1,11 @@
 /* eslint-disable no-unused-expressions */
 import React, { Component, createRef } from 'react'
 import {
+  appendClassIfNotExists,
   getIntersectingElementOnList,
   isTouchDevice,
-  JSXToDOMElement
+  JSXToDOMElement,
+  removeClassIfExists
 } from '../lib/dom'
 import ListItem from '../models/list-item'
 import styles from '../css/reorderable-item.css'
@@ -14,7 +16,7 @@ import { distance } from '../lib/math'
  *
  * @class ReOrderableItem
  * @author Ezequiel Sam Ceracas
- * @version 1.0.0
+ * @version 1.1.0
  * @extends {Component}
  */
 export default class ReOrderableItem extends Component {
@@ -32,6 +34,7 @@ export default class ReOrderableItem extends Component {
       itemCopy.style.zIndex = '9000'
       return itemCopy
     },
+    enabled: true,
     component: `div`,
     componentProps: null,
     itemIndex: 0,
@@ -261,9 +264,7 @@ export default class ReOrderableItem extends Component {
     }
 
     if (!this._overlappingList) {
-      if (!document.body.classList.contains(styles.noDrop)) {
-        document.body.classList.add(styles.noDrop)
-      }
+      appendClassIfNotExists(document.body, styles.noDrop)
       return
     }
 
@@ -280,9 +281,7 @@ export default class ReOrderableItem extends Component {
       this._dispatchCustomEvent(this._overlappingList, 'dragenter', {
         item: this
       })
-      if (document.body.classList.contains(styles.noDrop)) {
-        document.body.classList.remove(styles.noDrop)
-      }
+      removeClassIfExists(document.body, styles.noDrop)
     }
 
     this._dispatchCustomEvent(this._overlappingList, 'dragover', {
@@ -317,9 +316,7 @@ export default class ReOrderableItem extends Component {
     if (!this._isDragging) return
     const input = isTouchDevice() ? event.changedTouches[0] : event
 
-    if (document.body.classList.contains(styles.noDrop)) {
-      document.body.classList.remove(styles.noDrop)
-    }
+    removeClassIfExists(document.body, styles.noDrop)
 
     if (this._overlappingList) {
       this._overlappingList.dispatchEvent(

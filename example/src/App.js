@@ -1,22 +1,14 @@
 import React from 'react'
 import { HashRouter as Router, Switch, Route } from 'react-router-dom'
 import Home from './pages/Home'
-import ReactBoostrap from './pages/react-bootstrap';
-import MaterialUI from './pages/material-ui';
-import AntDesign from './pages/ant-design';
+import Docs from './pages/Docs'
 
 const App = () => {
   return (
     <Router>
       <Switch>
-        <Route path='/react-bootstrap'>
-          <ReactBoostrap />
-        </Route>
-        <Route path='/material-ui'>
-          <MaterialUI />
-        </Route>
-        <Route path='/ant-design'>
-          <AntDesign />
+        <Route path='/docs/:framework'>
+          <Docs />
         </Route>
         <Route path='/'>
           <Home />

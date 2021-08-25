@@ -3,7 +3,7 @@ const { dragAndDrop } = require('../__lib__/drag-and-drop')
 
 describe('ReOrderableList component', () => {
   beforeEach(async () => {
-    await page.goto('http://localhost:3001/#/material-ui')
+    await page.goto('http://localhost:3001/#/docs/material-ui')
   })
 
   it('transfers items from one list to another', async () => {

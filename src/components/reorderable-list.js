@@ -16,7 +16,7 @@ import ListController from '../controllers/list-controller'
  *
  * @class ReOrderableList
  * @author Ezequiel Sam Ceracas
- * @version 1.0.0
+ * @version 1.1.0
  * @extends {Component}
  */
 export default class ReOrderableList extends Component {

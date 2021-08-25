@@ -1,6 +1,6 @@
 {
   "name": "react-reorderable-list",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A simple UI framework friendly reorderable list component for React.",
   "author": "samceracas",
   "license": "MIT",
@@ -15,7 +15,12 @@
     "list",
     "library",
     "drag",
-    "drop"
+    "drop",
+    "dnd",
+    "drag and drop",
+    "orderable",
+    "transfer",
+    "transferable"
   ],
   "engines": {
     "node": ">=10"
@@ -34,10 +39,6 @@
     "deploy": "gh-pages -d example/build"
   },
   "peerDependencies": {
-    "array-move": "^3.0.1",
-    "crypto-random-string": "^3.3.0",
-    "is-empty": "^1.2.0",
-    "prop-types": "^15.7.2",
     "react": "^16.0.0",
     "react-dom": "^16.13.1"
   },
@@ -71,5 +72,10 @@
   "files": [
     "dist"
   ],
-  "dependencies": {}
+  "dependencies": {
+    "array-move": "^3.0.1",
+    "crypto-random-string": "^3.3.0",
+    "is-empty": "^1.2.0",
+    "prop-types": "^15.7.2"
+  }
 }

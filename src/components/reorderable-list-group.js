@@ -24,8 +24,12 @@ export default class ReOrderableListGroup extends Component {
    * @memberof ReOrderableListGroup
    */
   _onListUpdate = (newList, path) => {
-    const listCopy = [...this.props.group]
-    set(path, listCopy, newList)
+    let listCopy = [...this.props.group]
+    if (path) {
+      set(path, listCopy, newList)
+    } else {
+      listCopy = newList
+    }
     this.props.onListGroupUpdate?.(listCopy)
   }
 
